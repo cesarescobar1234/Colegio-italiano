@@ -1,48 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carnet Escolar</title>
+    <title>Carnet Digital - Colegio Trilingüe Italiano</title>
     <style>
-        body { margin: 0; background: #e5e7eb; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .card { background: white; width: 85%; max-width: 350px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; }
-        .header { background: #0056b3; color: white; padding: 20px; font-weight: bold; font-size: 1.2em; }
-        .content { padding: 30px; }
-        .label { color: #6b7280; font-size: 0.8em; text-transform: uppercase; margin-top: 15px; }
-        .data { color: #111827; font-size: 1.4em; font-weight: bold; margin-bottom: 5px; }
-        .footer { background: #f9fafb; padding: 15px; font-size: 0.9em; color: #374151; border-top: 1px solid #eee; }
+        body { margin: 0; background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: white; width: 90%; max-width: 380px; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); border-top: 12px solid #003366; }
+        .school-img { width: 100%; height: 180px; object-fit: cover; background: #ccc; }
+        .header { padding: 15px; text-align: center; background: #f8f9fa; border-bottom: 1px solid #eee; }
+        .header h1 { font-size: 1.1em; color: #003366; margin: 0; letter-spacing: 1px; }
+        .content { padding: 25px; text-align: center; }
+        .label { color: #888; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 15px; }
+        .data { color: #222; font-size: 1.6em; font-weight: bold; margin: 5px 0 20px 0; }
+        .info-grid { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 20px; }
+        .info-item b { font-size: 1.2em; color: #003366; }
+        .footer { background: #003366; color: white; padding: 12px; font-size: 0.8em; text-align: center; font-weight: 300; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="header">COLEGIO NACIONAL</div>
+
+    <div class="card" id="main-card" style="display:none;">
+        <img src="https://images.unsplash.com/photo-1541339907198-e08756defe31?auto=format&fit=crop&w=500" class="school-img" alt="Colegio">
+        
+        <div class="header">
+            <h1>COLEGIO TRILINGÜE ITALIANO</h1>
+        </div>
+
         <div class="content">
             <div class="label">Estudiante</div>
-            <div id="nombre" class="data">Cargando...</div>
-            <div style="display: flex; justify-content: space-around;">
-                <div>
+            <div id="nombre" class="data">---</div>
+
+            <div class="info-grid">
+                <div class="info-item">
                     <div class="label">Grado</div>
-                    <div id="grado" class="data">-</div>
+                    <b id="grado">---</b>
                 </div>
-                <div>
+                <div class="info-item">
                     <div class="label">Sección</div>
-                    <div id="seccion" class="data">-</div>
+                    <b id="seccion">---</b>
                 </div>
             </div>
         </div>
-        <div class="footer">Ciclo Escolar 2026</div>
+
+        <div class="footer">IDENTIFICACIÓN OFICIAL NFC 2026</div>
+    </div>
+
+    <div id="error-msg" style="display:none; text-align:center; color:#666;">
+        <h2>ID de Alumno no válido</h2>
+        <p>Por favor, escanee un carnet oficial.</p>
     </div>
 
     <script>
-        // BASE DE DATOS LOCAL
+        // BASE DE DATOS DE TUS 5 ALUMNOS
         const alumnos = {
-            "001": { n: "JUAN PEREZ", g: "5TO", s: "B" },
-            "002": { n: "MARIA LOPEZ", g: "4TO", s: "A" },
-            "135": { n: "RICARDO SOSA", g: "6TO", s: "C" }
-            // Solo agrega los 135 aquí siguiendo el mismo formato
+            "001": { n: "CARLOS RUIZ", g: "5TO INF.", s: "A" },
+            "002": { n: "ANA MARÍA LÓPEZ", g: "4TO INF.", s: "B" },
+            "003": { n: "JOSÉ GONZÁLEZ", g: "6TO INF.", s: "A" },
+            "004": { n: "MARÍA FERNANDA", g: "5TO INF.", s: "C" },
+            "005": { n: "LUIS ALBERTO", g: "4TO INF.", s: "A" }
         };
 
+        // Lógica para mostrar solo el alumno del ID
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         const info = alumnos[id];
@@ -51,10 +70,10 @@
             document.getElementById('nombre').innerText = info.n;
             document.getElementById('grado').innerText = info.g;
             document.getElementById('seccion').innerText = info.s;
+            document.getElementById('main-card').style.display = 'block';
         } else {
-            document.getElementById('nombre').innerText = "No encontrado";
+            document.getElementById('error-msg').style.display = 'block';
         }
     </script>
 </body>
 </html>
-
